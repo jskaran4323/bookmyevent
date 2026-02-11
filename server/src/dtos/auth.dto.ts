@@ -13,3 +13,8 @@ export interface UserResponseDto{
     firstName: string,
     lastName: string
 }
+
+export interface UserLoginData{
+  username: string,
+  password: string
+}
