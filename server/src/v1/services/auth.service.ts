@@ -7,6 +7,8 @@ import bcrypt from "bcrypt";
 
 
 export class AuthService{
+
+
  private toUserResponse(user: any): UserResponseDto {
         return {
           id: user.id.toString(),
@@ -30,6 +32,7 @@ export class AuthService{
          }})
          return this.toUserResponse(user)
     }
+
     async userLogin(userData: UserLoginData){
       const user = await prisma.user.findUnique({
         where:{
@@ -45,6 +48,7 @@ export class AuthService{
         if(!isMatch){
             throw new Error("Invalid username and password")
         }
+      
 
         return this.toUserResponse(user);
 
@@ -54,7 +58,6 @@ export class AuthService{
         where: {
             id: userId
         }
-
      })
      console.log(user);
      

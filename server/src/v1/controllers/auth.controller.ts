@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
 import { RegisterDto, UserLoginData } from "../../dtos/auth.dto";
+import jwt from 'jsonwebtoken';
 export class AuthController{
     
     private authService =  new AuthService(); 
-
+   
+     private token = process.env.JWT_SECRET || '';
 
     async registerUser(req: Request, res: Response): Promise<void>{
        const userData: RegisterDto = req.body;
@@ -21,9 +23,16 @@ export class AuthController{
         const userLoginInfo: UserLoginData = req.body;
         try{
             const user = await this.authService.userLogin(userLoginInfo)
-            res.status(201).json(user)
+        
+            const token = jwt.sign({userId: user.id}, this.token, {
+                expiresIn: '1h'
+            })
+    
+            res.status(201).json({token})
         }
         catch(error: unknown){
+            console.log(error);
+            
             res.status(500).json({error: "Failed to login user"})
            }
     }
