@@ -1,4 +1,3 @@
-import { UUID } from "node:crypto";
 
 export interface UserProps{
     id: string,

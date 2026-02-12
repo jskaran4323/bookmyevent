@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 
 
+
 const MY_SECRET = process.env.JWT_SECRET || "";
 
 export function verifyToken(req: Request, res: Response, next: NextFunction){
@@ -15,12 +16,10 @@ export function verifyToken(req: Request, res: Response, next: NextFunction){
         : authHeader;
 
      try {
-        console.log("payload", req.body.id);
         const decoded = jwt.verify(token, MY_SECRET) as { userId: string };
-        console.log(decoded.userId);
-        
-        req.params.id = decoded.userId
-        console.log(req.params.id);
+     
+        (req as any).user = { id: decoded.userId };
+    
         
         next();
      } catch (error) {

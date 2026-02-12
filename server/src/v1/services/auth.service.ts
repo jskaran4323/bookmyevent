@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 export class AuthService{
 
 
- private toUserResponse(user: any): UserResponseDto {
+ private toUserResponse(user: any): UserResponseDto { // this needs to be :User 
         return {
           id: user.id.toString(),
           username: user.username,
