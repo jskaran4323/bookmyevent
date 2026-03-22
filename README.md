@@ -37,37 +37,54 @@ You are expected to create at least **three components**:
 
 #### ANSWER: 
 
-## Approach and Design Explanation
+### Approach and Design Explanation
 
 ## Backend Approach
-The backend of this application is built using a function-based architecture instead of a class-based one. The structure is organized into clear layers where routes define the API endpoints, controllers handle request and response logic, services contain the core business logic and file operations, types define the data structure using TypeScript interfaces, and middleware is used for centralized error handling. 
+The backend of this application is built using a function-based architecture instead of a class-based one. 
+
+The structure is organized into clear layers: for example
+
+Client → Route → Controller → Service → Data Source (JSON) → Service → Controller → Response → Client
+
 The overall flow follows a simple pattern where a request moves from the route to the controller, then to the service, and finally interacts with the JSON file.
 
-A function-based approach was chosen because the application is stateless and primarily performs simple CRUD operations. This keeps the code lightweight, easier to read, and faster to implement and debug. For a project of this scale, introducing classes would add unnecessary complexity without providing significant benefits. However, for larger systems that require shared logic, dependency injection, or more structured abstractions, a class-based architecture would be more appropriate.
+A function-based approach was chosen because the application is stateless and primarily performs simple CRUD operations.so that code can stay lightweight, easier to read, and faster to implement and debug.
 
-The backend uses a JSON file located at `backend/data/funds_data.json` as its data source. Since there is no database involved, file operations are handled using `fs/promises`. This simplifies development and setup, although it does come with limitations in terms of scalability and concurrent access.
+The backend uses a JSON file located at `backend/data/funds_data.json` as its data source. Since there is no database involved, file operations are handled using `fs/promises`.
 
-To maintain type safety, a TypeScript interface called `Fund` is used instead of a traditional database model. This ensures that the data structure remains consistent throughout the application and improves the developer experience with better autocomplete and compile-time checks.
+To maintain type safety, a TypeScript interface called `Fund` is used instead of a traditional database model(which we usually use). 
 
-Error handling is implemented using a custom `AppError` class that extends the built-in Error class and includes a status code. Errors are thrown within the service layer and handled centrally באמצעות middleware. This avoids repeating error-handling logic in every controller, ensures consistent API responses, and keeps the controller code clean and focused.
+Error handling is implemented using a custom `AppError` class that extends the built-in Error class and includes a status code. Errors are thrown within the service layer and handled centrally through middleware. 
 
-On the frontend, the application is built using Angular with standalone components and routing. The application is divided into three main components: a table view to display all funds, a detail view to show information for a single fund, and an edit view for administrative changes. Each component corresponds directly to one of the requirements, making the structure intuitive and easy to follow.
+API routes are as follows:
+GET     /users/all        → Fetch all funds
+GET     /users/:name      → Fetch single fund by name
+PUT     /users/:name      → Update a fund by name
+DELETE  /users/:name      → Delete a fund by name
 
-Routing is used to manage navigation between views. The root path displays the table view, `/fund/:name` shows the user-facing detail view, and `/admin/edit/:name` opens the admin edit view. This approach provides clear navigation and makes each view independently accessible.
+## Frontend Approach
+On the frontend, the application is built using Angular with standalone components and routing. 
 
-The admin edit functionality is implemented as a separate page rather than using a modal dialog such as Angular Material’s MatDialog. This decision was made because a full page is better suited for forms with multiple fields, offers clearer navigation through URLs, and is easier to test and extend. While a modal would be useful for quick edits, a dedicated page provides a more structured and scalable user experience in this case.
+The application is divided into three main components: a table view to display all funds, a detail view to show information for a single fund, and an edit view for administrative changes. Each component corresponds directly to one of the requirements, making the structure intuitive and easy to follow.
 
-Data fetching on the frontend is handled באמצעות Angular’s HttpClient, with all API interactions centralized in a service. This includes fetching all funds, retrieving a single fund, updating a fund, and deleting a fund. Centralizing this logic keeps components cleaner and promotes reusability.
+Routing is used to manage navigation between views. The root path displays the table view, `/fund/:name` shows the user-facing detail view, and `/admin/edit/:name` opens the admin edit view.
 
-In the admin edit view, autosave is implemented using the blur event. This means that changes are saved when the user finishes editing a field rather than on every keystroke. This approach reduces unnecessary API calls, improves performance, and aligns better with real-world application behavior.
+The admin edit functionality is implemented as a separate page rather than using a modal dialog such as Angular Material’s MatDialog. This decision was made because a full page is better suited for forms with multiple fields.
 
-From a UI and UX perspective, the table view is designed to be clean and readable with clickable rows for navigation. The detail view uses a card-based layout to present information clearly, and the edit view uses a structured form layout. Loading states and error states are also handled to improve user experience.
 
-One important design decision is using the fund name as a unique identifier. While this works for the scope of this task, it is not ideal for a production system because names can change or may not be unique. A better approach would be to introduce a dedicated unique ID.
+Data fetching on the frontend is handled with Angular’s HttpClient, with all API interactions centralized in a service. This includes fetching all funds, retrieving a single fund, updating a fund, and deleting a fund
 
-Another trade-off is the use of a JSON file instead of a database. This simplifies the setup and development process but limits scalability and proper handling of concurrent updates.
+In the admin edit view, autosave is implemented using the blur event. This means that changes are saved when the user finishes editing a field rather than on every keystroke, and if admin doesnt wish to edit he can go back to the fund page.
 
-If this project were to be extended further, improvements could include introducing unique IDs, adding validation using tools like Zod or class-validator, implementing debounced autosave using RxJS, adding pagination and filtering, introducing role-based access control, and integrating a proper database such as PostgreSQL or MongoDB.
+I tried to keep UX|UI to the minimum. so simple scss is used.
 
-Overall, the implementation focuses on clarity, separation of concerns, and maintainability. The architecture is simple but flexible enough to be extended, and it reflects practical design decisions that would scale well with further development.
+
+# Going further 
+If any improvement for the future, I would introduce a unique Id for all funds so that they can be uniquely defined, I will also introduce testing (Frontend/Backend)
+
+# Question/Doubts:
+My only doubt is:
+The requirements for this task did not include authentication or role-based access control.
+The term “Admin” is used only to describe a view that allows editing and deleting data. It does not represent an actual user role or permission system.
+
 
