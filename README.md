@@ -1,6 +1,10 @@
-#### ANSWER
+## Submission Details
 
----
+**Name:** Jaskaran Singh  
+**Email:** jaskaran.s@myjobsca.com  
+
+**Message:**  
+Thank you for reviewing my submission. 
 
 ## Approach and Design Explanation
 
@@ -88,3 +92,5 @@ For future improvements:
 The requirements for this task did not include authentication or role-based access control.
 
 The term “Admin” is used only to describe a view that allows editing and deleting data. It does not represent an actual user role or permission system.
+
+
