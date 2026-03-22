@@ -9,6 +9,8 @@ Thank you for reviewing my submission.
 ## Approach and Design Explanation
 
 ---
+No `.env` file was used in this project since there are no sensitive configurations or environment-specific variables required for this setup.
+everything is defined in the specific files.
 
 ## Backend Approach
 
@@ -74,7 +76,7 @@ Data fetching on the frontend is handled using Angular’s HttpClient, with all 
 
 In the admin edit view, autosave is implemented using the `blur` event. This means that changes are saved when the user finishes editing a field rather than on every keystroke. If the admin does not wish to edit, they can navigate back to the fund page.
 
-UI/UX has been intentionally kept simple, using basic SCSS for styling.
+I tried to keep UX|UI to the minimum. so simple scss is used.
 
 ---
 
@@ -82,15 +84,16 @@ UI/UX has been intentionally kept simple, using basic SCSS for styling.
 
 For future improvements:
 
-* Introduce a unique ID for each fund to ensure proper identification
+* I would introduce a unique Id for all funds so that they can be uniquely defined,
 * Add testing for both frontend and backend
 
 ---
 
 ## Question / Doubts
 
-The requirements for this task did not include authentication or role-based access control.
 
-The term “Admin” is used only to describe a view that allows editing and deleting data. It does not represent an actual user role or permission system.
+* The current implementation uses the fund name as a unique identifier since the provided dataset does not include an explicit ID. A limitation of this approach is observed when using browser navigation (e.g., the back button). If a fund name is edited, navigating back may lead to a stale route (e.g., /fund/:oldName) that no longer exists, resulting in a “fund not found” state.
+
+* The requirements for this task did not include authentication or role-based access control. The term “Admin” is used only to describe a view that allows editing and deleting data. It does not represent an actual user role or permission system.
 
 
