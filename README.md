@@ -56,11 +56,22 @@ To maintain type safety, a TypeScript interface called `Fund` is used instead of
 
 Error handling is implemented using a custom `AppError` class that extends the built-in Error class and includes a status code. Errors are thrown within the service layer and handled centrally through middleware. 
 
-API routes are as follows:
-GET     /users/all        → Fetch all funds
-GET     /users/:name      → Fetch single fund by name
-PUT     /users/:name      → Update a fund by name
-DELETE  /users/:name      → Delete a fund by name
+## API Routes
+
+The available API endpoints are:
+
+* **GET /users/all**
+  Fetch all funds
+
+* **GET /users/:name**
+  Fetch a single fund by name
+
+* **PUT /users/:name**
+  Update a fund by name
+
+* **DELETE /users/:name**
+  Delete a fund by name
+
 
 ## Frontend Approach
 On the frontend, the application is built using Angular with standalone components and routing. 
